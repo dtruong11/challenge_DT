@@ -1,5 +1,5 @@
-###Two coding challenges 
+### Two coding challenges 
 
-#####Challenge 1: Directed Graph 
+##### Challenge 1: Directed Graph 
 
-#####Challenge 2: Campground 
+##### Challenge 2: Campground 
