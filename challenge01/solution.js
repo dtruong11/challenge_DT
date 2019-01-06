@@ -1,18 +1,29 @@
 const fs = require('fs')
-const content = fs.readFileSync('./input.txt', 'utf-8')
+const path = require('path')
+let origin = path.join(__dirname, 'input.txt')
+const content = fs.readFileSync(origin, 'utf-8')
 const input = JSON.parse(content)
 
-const addNewNode = (input, n) => {
+const addNewNode = (input) => {
+  let n = input.newNode
+  if (!n) throw new Error('There is no new node to add')
   let vertices = input.nodes
   let edges = input.edges
+  let nodeswPath = {}
+  let noPaths = {}
 
   if (vertices.length === 0) throw new Error('Add some nodes to the graph')
   if (edges.length === 0) throw new Error('Add some edges between nodes')
-  let nodeswPath = edges.map(el => el[0]).filter((el, idx, arr) => arr.indexOf(el) === idx)
-  let noPaths = vertices.filter(el => !nodeswPath.includes(el))
-  noPaths.forEach(el => {
-    edges.push([el, n])
+
+  edges.map(el => nodeswPath[el[0]] = true)
+  vertices.map(el => {
+    if (!nodeswPath.hasOwnProperty(el)) noPaths[el] = true
   })
+
+  for (let node in noPaths) {
+    edges.push([parseInt(node), n])
+  }
+
   vertices.push(n)
   return {
     "nodes": vertices,
@@ -20,4 +31,4 @@ const addNewNode = (input, n) => {
   }
 }
 
-console.log(addNewNode(input, 3))
+console.log(addNewNode(input))
